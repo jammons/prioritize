@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+
+{% block body_class %}compare{% endblock %}
+
+{% block container %}
+<div class="container">
+    <form class='hero-unit'>
+        <div class="span4 item">
+            <p>{{ items.0.title }}</p>
+        </div>
+        <div class='span2'>
+            <p>vs.</p>
+        </div>
+        <div class="span4 item">
+            <p>{{ items.1.title }}</p>
+        </div>
+        <input type='hidden' name='winner' value=''>
+        <input type='hidden' name='loser' value=''>
+    </form>
+</div>
+
+{% endblock container %}
+
+{% block userscripts %}
+    <script src="{{ STATIC_URL }}js/compare.js"></script>
+{% endblock userscripts %}

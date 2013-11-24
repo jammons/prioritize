@@ -1,0 +1,20 @@
+{% extends "base/base.html" %}
+    {% block container %}
+        <div class="container">
+
+            <!-- Main hero unit for a primary marketing message or call to action -->
+            <div class="hero-unit">
+                <h1>Pick Your Set!</h1>
+                <table>
+                    <tr>
+                        <th>Set Name</th>
+                    </tr>
+                    {% for set in sets %}
+                        <tr>
+                            <td><a href="{% url 'set_home' set.id %}">{{ set.title }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+    {% block container %}
+
+        <div class="container">
+
+            <!-- Main hero unit for a primary marketing message or call to action -->
+            <div class="hero-unit">
+                <a class='btn' href='{% url 'compare' set.id %}'>Improve Scores</a>
+                <table>
+                    <tr>
+                        <th class='span4'>Item</th>
+                        <th class='span4'>Description</th>
+                        <th class='span2'>Score</th>
+                    </tr>
+                    {% for item in items %}
+                        <tr>
+                            <td class='span4'>{{ item.title }}</td>
+                            <td class='span4'>{{ item.description }}</td>
+                            <td class='span2'>{{ item.score }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endblock %}
