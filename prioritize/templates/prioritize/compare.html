@@ -4,18 +4,20 @@
 
 {% block container %}
 <div class="container">
-    <form class='hero-unit'>
+    <form class='hero-unit' method='post'>
+        {% csrf_token %}
         <div class="span4 item">
-            <p>{{ items.0.title }}</p>
+            <p data-id={{ items.0.id }}>{{ items.0.title }}</p>
         </div>
         <div class='span2'>
             <p>vs.</p>
         </div>
         <div class="span4 item">
-            <p>{{ items.1.title }}</p>
+            <p data-id={{ items.1.id }}>{{ items.1.title }}</p>
         </div>
-        <input type='hidden' name='winner' value=''>
-        <input type='hidden' name='loser' value=''>
+        <input type='hidden' name='winner' value='1'>
+        <input type='hidden' name='loser' value='2'>
+        <input type='button' value='submit form'>
     </form>
 </div>
 
