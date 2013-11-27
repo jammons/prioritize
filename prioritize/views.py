@@ -8,7 +8,7 @@ def home(request):
 
 def set_home(request, set_id):
     item_set = get_object_or_404(ItemSet, id=set_id)
-    items = item_set.items.all()
+    items = item_set.items.all().order_by('-score')
     template_vars = {
         'items': items,
         'set': item_set,
@@ -28,7 +28,7 @@ def compare(request, set_id):
         process_elo_compare(winner, loser)
 
     item_set = get_object_or_404(ItemSet, id=set_id)
-    items=item_set.items.all().order_by('?')
+    items=list(item_set.items.order_by('?')[0:2])
 
     template_vars = {
         'items': items,
@@ -49,13 +49,8 @@ def process_elo_compare(winner, loser):
     winner_expected = 1/(1.0 + 10**((loser.score-winner.score) / 400.0))
     loser_expected = 1/(1.0 + 10**((winner.score-loser.score) / 400.0))
 
-    #print winner_expected
-    #print loser_expected
-
     winner.score = winner.score + 32.0 * ( 1.0 - winner_expected)
     loser.score = loser.score + 32.0 * ( 0.0 - loser_expected)
     
-    print winner.score
-    print loser.score
     winner.save()
     loser.save()

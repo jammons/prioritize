@@ -6,16 +6,31 @@
 })();
 
 (function(){
-    var ChooserFormView = Backbone.View.Extend({
+    var ChooserFormView = Backbone.View.extend({
         events: {
-            "click .item": 'choose'
+            "click": 'choose'
         },
 
         choose: function(event) {
             // Function submits the winner of the comparison
             // to the form URL 
-            console.log('asdf');
+            var winner_id, loser_id;
+
+            winner_id = $(event.currentTarget).data('id');
+            loser_id = $(event.currentTarget).siblings('.item').data('id');
+            this.submitWinner(winner_id, loser_id);
+        },
+
+        submitWinner: function(winner_id, loser_id) {
+            hero = $('.hero-unit form');
+            hero.find('input[name=winner]').val(winner_id);
+            hero.find('input[name=loser]').val(loser_id);
+            hero.submit();
         }
     });
-    chooserFormView = new ChooserFormView();
+
+    $('.item').each(
+        function(){
+            chooserFormView = new ChooserFormView({ el: this });
+    });
 })();
