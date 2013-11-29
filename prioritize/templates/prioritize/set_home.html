@@ -3,10 +3,11 @@
 {% block body_class %}set_home{% endblock %}
 
 {% block container %}
-
     <div class="container">
         <div class="hero-unit">
-            <a class='btn' href='{% url 'compare' set.id %}'>Improve Scores</a>
+            <div class='row-fluid'>
+                <a class='btn' href='{% url 'compare' set.id %}'>Improve Scores</a>
+            </div>
             <table class='rankings'>
                 <tr class='even'>
                     <th class='span4'>Item</th>
@@ -21,6 +22,18 @@
                     </tr>
                 {% endfor %}
             </table>
+            <div class='add-form row-fluid'>
+                <form method='post' class=''>
+                    {% csrf_token %}
+                    <h3>Add a new Item</h3>
+                    
+                    
+                    Title<input type='text' class="span2" name='title'>
+                    Description<textarea rows='4' class="span4" name='description'></textarea>
+                    <button type="submit" class="btn">Submit</button>
+                </form>
+            </div>
+
         </div>
     </div>
 {% endblock %}

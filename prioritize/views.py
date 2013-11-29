@@ -2,12 +2,27 @@ from django.shortcuts import render, get_object_or_404
 from .models import ItemSet, Item
 
 def home(request):
+    if request.method=='POST':
+        item_set = ItemSet(
+            title=request.POST['title'],
+            question=request.POST['question']
+        )
+        item_set.save()
     sets = ItemSet.objects.all()
     template_vars = { 'sets': sets }
     return render(request, 'prioritize/home.html', template_vars)
 
 def set_home(request, set_id):
     item_set = get_object_or_404(ItemSet, id=set_id)
+
+    if request.method=='POST':
+        item = Item(
+            title=request.POST['title'],
+            description=request.POST['description'],
+            set=item_set
+        )
+        item.save()
+
     items = item_set.items.all().order_by('-score')
     template_vars = {
         'items': items,

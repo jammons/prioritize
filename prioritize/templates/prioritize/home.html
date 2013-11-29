@@ -1,10 +1,10 @@
 {% extends "base/base.html" %}
+    {% block body_class %}home{% endblock %}
+
     {% block container %}
         <div class="container">
-
-            <!-- Main hero unit for a primary marketing message or call to action -->
             <div class="hero-unit">
-                <h1>Pick Your Set!</h1>
+                <h2>Pick Your Set!</h2>
                 <table>
                     <tr>
                         <th>Set Name</th>
@@ -15,6 +15,15 @@
                         </tr>
                     {% endfor %}
                 </table>
+                <div class='add-form row-fluid'>
+                    <form method='post' class=''>
+                        {% csrf_token %}
+                        <h3>Add a new set</h3>
+                        Set Name<input type='text' class="span2" name='title'>
+                        Question<input type='text' class="span2" name='question'>
+                        <button type="submit" class="btn">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
     {% endblock %}
