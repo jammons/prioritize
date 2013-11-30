@@ -1,25 +1,34 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect, Http404
+from django.core.urlresolvers import reverse
 from .models import ItemSet, Item
 
 def home(request):
     if request.method=='POST':
         item_set = ItemSet(
             title=request.POST['title'],
-            question=request.POST['question']
+            question=request.POST['question'],
+            user=request.user,
         )
         item_set.save()
-    sets = ItemSet.objects.all()
+    sets = ItemSet.objects.filter(user=request.user)
     template_vars = { 'sets': sets }
     return render(request, 'prioritize/home.html', template_vars)
 
 def set_home(request, set_id):
-    item_set = get_object_or_404(ItemSet, id=set_id)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('home'))
 
+    item_set = get_object_or_404(ItemSet, id=set_id)
+    if item_set.user != request.user:
+        raise Http404('Set not found')
+
+    # Create new item
     if request.method=='POST':
         item = Item(
             title=request.POST['title'],
             description=request.POST['description'],
-            set=item_set
+            set=item_set,
         )
         item.save()
 
@@ -43,6 +52,9 @@ def compare(request, set_id):
         process_elo_compare(winner, loser)
 
     item_set = get_object_or_404(ItemSet, id=set_id)
+    if item_set.user != request.user:
+        return Http404('Set not found')
+
     items=list(item_set.items.order_by('?')[0:2])
 
     template_vars = {

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class ItemSet(models.Model):
@@ -5,6 +6,7 @@ class ItemSet(models.Model):
     title = models.CharField(max_length=40, blank=False)
     question = models.CharField(max_length='100', default='Which is more important?',
         help_text='What prompt would you like to show people when they are deciding?')
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
         return self.title
